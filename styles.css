@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Quantico&display=swap");
+* {
+	font-family: Quantico;
+}
+.calcWrap {
+	display: flex;
+	background-image: url("/odin-project-3-calculator/media/photo-1514621166532-aa7eb1a3a2f4.jpeg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	min-height: 100%;
+	width: 100%;
+	height: auto;
+	position: fixed;
+	top: 0;
+	left: 0;
+	align-content: center;
+	justify-content: center;
+}
+
+.display {
+	/* display: flex;
+	justify-content: flex-start; */
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	background-color: #e1eeea;
+	width: 1100px;
+	height: 600px;
+	margin-top: 80px;
+	/* padding: 20px; */
+}
+.display .operation {
+	padding-left: 44px;
+	padding-top: 49px;
+	font-size: 40px;
+	color: rgba(0, 0, 0, 0.7);
+	/* border: solid; */
+	/* border-color: red; */
+	height: 300px;
+}
+.display .answer {
+	color: rgba(0, 0, 0, 0.8);
+	font-size: 64px;
+	height: fit-content;
+	grid-column: span 2;
+	padding-right: 3%;
+	display: flex;
+	justify-content: end;
+	/* border: solid; */
+	/* border-color: red; */
+}
+button {
+	font-size: 48px;
+	background-color: #f5fff1;
+	height: 80px;
+	min-width: 80px;
+	border-radius: 10px;
+}
+.buttonWrap {
+	display: grid;
+	grid-template-columns: repeat(3, 80px);
+	background-color: rgba(57, 131, 113, 0.8);
+	width: 375px;
+	height: fit-content;
+	padding: 4% 2% 4% 2%;
+	margin-top: 100px;
+
+	justify-content: center;
+	align-content: center;
+	gap: 0;
+}
+.enter {
+	min-width: 240px;
+}
+
+.clearDeleteWrap {
+	display: flex;
+	justify-content: end;
+	align-items: flex-start;
+	grid-column: span 2;
+	/* border: solid; */
+	/* border-color: red; */
+	/* height: fit-content; */
+	/* width: min-content; */
+}
+button:hover {
+	background-color: #a9ffac;
+}
+
+.operatorWrap {
+	display: flex;
+	flex-direction: column;
+	/* border: solid; */
+	/* border-color: red; */
+	background-color: #e1eeea;
+	justify-content: flex-end;
+	height: 600px;
+	margin-top: 80px;
+	padding-right: 20px;
+}
+#operator-plus {
+	margin-bottom: 25px;
+}

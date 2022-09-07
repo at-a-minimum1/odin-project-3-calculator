@@ -6,7 +6,52 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="styles.css" />
 
-		<title>Document</title>
+		<title>Odin Project 3 Calculator</title>
 	</head>
-	<body></body>
+	<body>
+		<div class="calcWrap">
+			<div class="display">
+				<div class="operation">48 + 10</div>
+
+				<div class="answer">58</div>
+				<div class="clearDeleteWrap">
+					<!-- <button>X</button>
+					<button>\</button>
+					<button>-</button>
+					<button>+</button> -->
+
+					<button>clear</button>
+					<button>delete</button>
+				</div>
+			</div>
+			<div class="operatorWrap">
+				<button id="operator-multiply">x</button>
+				<button id="operator-divide">\</button>
+				<button id="operator-minus">-</button>
+				<button id="operator-plus">+</button>
+			</div>
+
+			<div class="buttonWrap">
+				<!-- First row -->
+				<button id="number">7</button>
+				<button id="number">8</button>
+				<button id="number">9</button>
+				<!-- Second row -->
+				<button id="number">4</button>
+				<button id="number">5</button>
+				<button id="number">6</button>
+				<!-- Third Row -->
+				<button id="number">1</button>
+				<button id="number">2</button>
+				<button id="number">3</button>
+				<!-- Fourth Row -->
+				<button id="decimal">.</button>
+				<button id="number">0</button>
+				<button id="numLock">NL</button>
+				<button id="operator" class="enter">ENTER</button>
+			</div>
+		</div>
+
+		<script src="app.js"></script>
+	</body>
 </html>
