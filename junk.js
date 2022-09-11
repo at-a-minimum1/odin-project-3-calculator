@@ -1,7 +1,10 @@
-// @colllapse
+// @collapse
 // If numlock is turned off the keypad should be visibly disabled.
 let curNum = document.getElementById("ans");
 let prevNum = document.getElementById("operation");
+// let operationState = "NA";
+// let numbers = [];
+// let equations = [];
 let multOrDivide = 0;
 let eqArray = [];
 
@@ -20,12 +23,24 @@ function clear() {
 	prevNum.innerHTML = "";
 	curNum.innerHTML = "0";
 	operationState = "NA";
+	numbers = [];
+	equations = [];
 	eqArray = [];
 	multOrDivide = 0;
 }
 
 function evaluate() {
+	let num1 = 0;
+	// let num2 = 0;
 	answer = 0;
+	for (let i = 0; i < eqArray.length; i++) {
+		if (eqArray[i] != NaN) {
+			num1 = Number(eqArray[i]);
+		}
+		if (eqArray[i] == "+") {
+			answer += sum(num1, Number(eqArray[i + 1]));
+		}
+	}
 
 	return answer;
 }
@@ -48,6 +63,14 @@ function addToArray(varOne, varTwo) {
 		eqArray.push(varTwo);
 	}
 }
+
+// class Calculator {
+// 	constructor(prevNum, curNum) {
+// 		this.prevNum = prevNum;
+// 		this.curNum = curNum;
+// 		clear();
+// 	}
+// }
 
 // Button action Listeners
 // Clear, delete, and enter
@@ -72,24 +95,36 @@ enterBtn.addEventListener("click", () => {
 // operator buttons
 multiplyBtn.addEventListener("click", () => {
 	multOrDivide = 1;
+	// let num1 = 0;
 
+	// let num1 = eqArray[eqArray.length];
 	let num2 = Number(curNum.innerHTML);
+	// let ans = 0;
+	// ans = multiply(num1, num2);
+	// // if (curNum.innerHTML == "0") return;
 	eqArray.push(num2);
+	// eqArray.push("x");
 	prevNum.innerHTML += " " + curNum.innerHTML + " " + "x";
 	curNum.innerHTML = "0";
 });
 divideBtn.addEventListener("click", () => {
+	if (curNum.innerHTML == "0") return;
+
 	operationState = divideBtn.innerText;
 	prevNum.innerHTML += " " + curNum.innerHTML + " " + "/";
 	eqArray.push(Number(curNum.innerHTML));
+	// eqArray.push("/");
 
 	curNum.innerHTML = "0";
 });
 plusBtn.addEventListener("click", () => {
+	// let num = Number(curNum.innerHTML);
 	if (curNum.innerHTML == "0") return;
 
 	addToArray(Number(curNum.innerHTML), eqArray.pop());
 	prevNum.innerHTML += " " + curNum.innerHTML + " " + "+";
+	// eqArray.push(num);
+	// eqArray.push("+");
 
 	curNum.innerHTML = "0";
 });
@@ -100,8 +135,11 @@ minusBtn.addEventListener("click", () => {
 		num = multiply(num2, Number(curNum.innerHTML));
 		multOrDivide = 0;
 	}
+	if (curNum.innerHTML == "0") return;
 	prevNum.innerHTML += " " + curNum.innerHTML + " " + "-";
+	// num = num * -1;
 	eqArray.push(num);
+	// eqArray.push("-");
 
 	curNum.innerHTML = "0";
 });
@@ -120,3 +158,55 @@ decimalBtn.addEventListener("click", () => {
 		curNum.innerHTML += decimalVal;
 	}
 });
+// Calculator Functions
+const add = function (...args) {
+	let j = 0;
+	let sumNum = 0;
+	while (j < args.length) {
+		sumNum += args[j];
+		// console.log(sumNum);
+		j++;
+	}
+	return sumNum;
+};
+
+const subtract = function (...args) {
+	let j = 1;
+	let subNum = args[0];
+	while (j < args.length) {
+		subNum -= args[j];
+		console.log(subNum);
+		j++;
+	}
+	return subNum;
+};
+
+const sum = function (args) {
+	let j = 0;
+	let sumNum = 0;
+	while (j < args.length) {
+		sumNum += args[j];
+		j++;
+	}
+	return sumNum;
+};
+
+const multiply = function (num1, num2) {
+	return num1 * num2;
+};
+
+const power = function (base, exponent) {
+	baseMult = base;
+	j = 0;
+	if (exponent == 0) {
+		return 0;
+	}
+	if (exponent == 1) {
+		return base;
+	}
+	while (j < exponent - 1) {
+		baseMult *= base;
+		j++;
+	}
+	return baseMult;
+};
