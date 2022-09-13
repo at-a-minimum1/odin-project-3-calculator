@@ -1,9 +1,11 @@
-// @colllapse
+// @collapse
 // If numlock is turned off the keypad should be visibly disabled.
 let curNum = document.getElementById("ans");
 let prevNum = document.getElementById("operation");
-let multOrDivide = 0;
-let eqArray = [];
+let pemdasNum = 0;
+let numbers = [];
+let multiplyNum = null;
+let sign = 1;
 
 // buttons
 const clearBtn = document.getElementById("clear");
@@ -14,100 +16,179 @@ const minusBtn = document.getElementById("operator-minus");
 const plusBtn = document.getElementById("operator-plus");
 const decimalBtn = document.getElementById("decimal");
 const enterBtn = document.getElementById("enter");
-const num = document.getElementById("");
 
 function clear() {
 	prevNum.innerHTML = "";
-	curNum.innerHTML = "0";
-	operationState = "NA";
-	eqArray = [];
-	multOrDivide = 0;
+	// curNum.innerHTML = "0";
+	numbers = [];
+	pemdasNum = 0;
+	multiplyNum = null;
+	sign = 1;
 }
-
 function evaluate() {
-	answer = 0;
+	answer = sum(numbers);
 
 	return answer;
 }
-function addToArray(varOne, varTwo) {
-	//Accepts two variables. If it's subtracted one of the variables will be a negative value (varTwo). Otherwise it should be just two regular old values.
-
-	if (varTwo == NaN) {
-		eqArray.push(varOne);
+function enterFunction() {
+	if (prevNum.innerHTML.includes("=")) {
+		prevNum.innerHTML = "";
+		clear();
 		return;
 	}
-	if (multOrDivide == 1) {
-		eqArray.push(varOne * varTwo);
-		multOrDivide = 0;
+	if (multiplyNum != null && pemdasNum == 1) {
+		numbers.push(multiplyNum * (sign * Number(curNum.innerHTML)));
+		sign = 1;
+		pemdasNum = 0;
 	}
-	if (multOrDivide == 2) {
-		eqArray.push(varOne / varTwo);
-		multOrDivide = 0;
-	} else {
-		eqArray.push(varOne);
-		eqArray.push(varTwo);
+
+	if (multiplyNum != null && pemdasNum == 2) {
+		numbers.push(multiplyNum / (sign * Number(curNum.innerHTML)));
+		sign = 1;
+		pemdasNum = 0;
 	}
+	if (multiplyNum == null) {
+		numbers.push(sign * Number(curNum.innerHTML));
+		sign = 1;
+	}
+	let answer = sum(numbers);
+
+	prevNum.innerHTML =
+		" " + prevNum.innerHTML + " " + curNum.innerHTML + " = " + answer;
+
+	curNum.innerHTML = "0";
+
+	console.log(numbers);
 }
+function multiplyFunction() {
+	if (prevNum.innerHTML.includes("=")) {
+		prevNum.innerHTML = "";
+		clear();
+		return;
+	}
+	pemdasNum = 1;
+	prevNum.innerHTML += " " + curNum.innerHTML + " " + "x";
+	console.log(multiplyNum);
+	if (multiplyNum != null) {
+		multiplyNum *= Number(curNum.innerHTML);
+		sign = 1;
+	}
+	if (multiplyNum == null) {
+		multiplyNum = Number(curNum.innerHTML);
+		sign = 1;
+	}
+	curNum.innerHTML = "0";
+}
+function divideFunction() {
+	if (prevNum.innerHTML.includes("=")) {
+		prevNum.innerHTML = "";
+		clear();
+		return;
+	}
+	pemdasNum = 2;
+	prevNum.innerHTML += " " + curNum.innerHTML + " " + "/";
+
+	multiplyNum = Number(curNum.innerHTML);
+
+	curNum.innerHTML = "0";
+}
+function additionFunction() {
+	if (prevNum.innerHTML.includes("=")) {
+		prevNum.innerHTML = "";
+		clear();
+		return;
+	}
+	if (curNum.innerHTML == "0") return;
+	if (multiplyNum == null) {
+		numbers.push(sign * Number(curNum.innerHTML));
+		sign = 1;
+	}
+	if (multiplyNum != null && pemdasNum == 1) {
+		numbers.push(multiplyNum * (sign * Number(curNum.innerHTML)));
+		multiplyNum = null;
+		pemdasNum = 0;
+		sign = 1;
+	}
+	if (multiplyNum != null && pemdasNum == 2) {
+		numbers.push(multiplyNum / (sign * Number(curNum.innerHTML)));
+		multiplyNum = null;
+		pemdasNum = 0;
+		sign = 1;
+	}
+
+	prevNum.innerHTML += " " + curNum.innerHTML + " " + "+";
+
+	curNum.innerHTML = "0";
+}
+function minusFunction() {
+	if (prevNum.innerHTML.includes("=")) {
+		prevNum.innerHTML = "";
+		clear();
+		return;
+	}
+	if (curNum.innerHTML == "0") return;
+	if (multiplyNum == null) {
+		numbers.push(Number(curNum.innerHTML));
+		sign = -1;
+	}
+	if (multiplyNum != null && pemdasNum == 1) {
+		numbers.push(multiplyNum * Number(curNum.innerHTML));
+		multiplyNum = null;
+		pemdasNum = 0;
+		sign = -1;
+	}
+	if (multiplyNum != null && pemdasNum == 2) {
+		numbers.push(multiplyNum / Number(curNum.innerHTML));
+		multiplyNum = null;
+		pemdasNum = 0;
+		sign = -1;
+	}
+
+	prevNum.innerHTML += " " + curNum.innerHTML + " " + "-";
+
+	curNum.innerHTML = "0";
+}
+const sum = function (args) {
+	let j = 0;
+	let sumNum = 0;
+	while (j < args.length) {
+		sumNum += args[j];
+		j++;
+	}
+	return sumNum;
+};
 
 // Button action Listeners
 // Clear, delete, and enter
 clearBtn.addEventListener("click", () => {
 	clear();
+	curNum.innerHTML = "0";
 });
 deleteBtn.addEventListener("click", () => {
 	curNum.innerHTML = "0";
 });
 enterBtn.addEventListener("click", () => {
-	prevNum.innerHTML = " " + prevNum.innerHTML + " " + curNum.innerHTML + " = ";
-	let num = Number(curNum.innerHTML);
-	if (multOrDivide == 1) {
-		let num2 = eqArray.pop();
-		num = multiply(num2, Number(curNum.innerHTML));
-	}
-
-	eqArray.push(num);
-	curNum.innerHTML = "0";
-	console.log(eqArray);
+	enterFunction();
 });
 // operator buttons
 multiplyBtn.addEventListener("click", () => {
-	multOrDivide = 1;
-
-	let num2 = Number(curNum.innerHTML);
-	eqArray.push(num2);
-	prevNum.innerHTML += " " + curNum.innerHTML + " " + "x";
-	curNum.innerHTML = "0";
+	multiplyFunction();
 });
 divideBtn.addEventListener("click", () => {
-	operationState = divideBtn.innerText;
-	prevNum.innerHTML += " " + curNum.innerHTML + " " + "/";
-	eqArray.push(Number(curNum.innerHTML));
-
-	curNum.innerHTML = "0";
+	divideFunction();
 });
 plusBtn.addEventListener("click", () => {
-	if (curNum.innerHTML == "0") return;
-
-	addToArray(Number(curNum.innerHTML), eqArray.pop());
-	prevNum.innerHTML += " " + curNum.innerHTML + " " + "+";
-
-	curNum.innerHTML = "0";
+	additionFunction();
 });
 minusBtn.addEventListener("click", () => {
-	let num = Number(curNum.innerHTML);
-	if (multOrDivide == 1) {
-		let num2 = eqArray.pop();
-		num = multiply(num2, Number(curNum.innerHTML));
-		multOrDivide = 0;
-	}
-	prevNum.innerHTML += " " + curNum.innerHTML + " " + "-";
-	eqArray.push(num);
-
-	curNum.innerHTML = "0";
+	minusFunction();
 });
 // Number buttons
 document.querySelectorAll(".numberBtn").forEach((item) => {
 	item.addEventListener("click", () => {
+		if (prevNum.innerHTML.includes("=")) {
+			clear();
+		}
 		let numVal = item.textContent;
 		if (curNum.innerHTML == "0") curNum.innerHTML = numVal;
 		else curNum.innerHTML += numVal;
@@ -120,3 +201,68 @@ decimalBtn.addEventListener("click", () => {
 		curNum.innerHTML += decimalVal;
 	}
 });
+// Keydown events
+// window.addEventListener("keydown", handleKeyPress());
+document.addEventListener("keydown", (e) => {
+	if (e.key == "NumLock" && e.getModifierState("NumLock")) {
+		document.getElementById("numLock").style.backgroundColor = "red";
+	}
+	if (e.getModifierState("NumLock") == false) {
+		document.getElementById("numLock").style.backgroundColor = "red";
+	} else {
+		document.getElementById("numLock").style.backgroundColor = "#f5fff1";
+	}
+	if (Number(e.key) >= 0 && Number(e.key) <= 9) {
+		if (prevNum.innerHTML.includes("=")) {
+			clear();
+		}
+		let numVal = e.key;
+		if (curNum.innerHTML == "0") curNum.innerHTML = numVal;
+		else curNum.innerHTML += numVal;
+	} else {
+		if (e.key == "Enter") {
+			enterFunction();
+		}
+		if (e.key == "/") {
+			divideFunction();
+		}
+		if (e.key == "*") {
+			multiplyFunction();
+		}
+		if (e.key == "+") {
+			additionFunction();
+		}
+		if (e.key == "-") {
+			minusFunction();
+		}
+		if (e.key == ".") {
+			let decimalVal = e.key;
+			if (curNum.innerHTML.includes(".")) return;
+			else {
+				curNum.innerHTML += decimalVal;
+			}
+		}
+		return;
+	}
+});
+// window.addEventListener("keydown", (e) => {
+// 	console.log(e);
+// 	// if (e.key >= 0 && e.key <= 9) {
+// 	// 	if (prevNum.innerHTML.includes("=")) {
+// 	// 		clear();
+// 	// 	}
+// 	// 	if (curNum.innerHTML == "0") curNum.innerHTML = e;
+// 	// 	else curNum.innerHTML += e;
+// 	// }
+// });
+// function handleKeyPress(e) {
+// 	e.preventDefault();
+// 	console.log(e.key);
+// 	// if (e.key >= 0 && e.key <= 9) {
+// 	// 	if (prevNum.innerHTML.includes("=")) {
+// 	// 		clear();
+// 	// 	}
+// 	// 	if (curNum.innerHTML == "0") curNum.innerHTML = e;
+// 	// 	else curNum.innerHTML += e;
+// 	// }
+// }

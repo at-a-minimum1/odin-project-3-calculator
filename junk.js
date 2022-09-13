@@ -25,7 +25,7 @@ function clear() {
 	operationState = "NA";
 	numbers = [];
 	equations = [];
-	eqArray = [];
+	numbers = [];
 	multOrDivide = 0;
 }
 
@@ -33,12 +33,12 @@ function evaluate() {
 	let num1 = 0;
 	// let num2 = 0;
 	answer = 0;
-	for (let i = 0; i < eqArray.length; i++) {
-		if (eqArray[i] != NaN) {
-			num1 = Number(eqArray[i]);
+	for (let i = 0; i < numbers.length; i++) {
+		if (numbers[i] != NaN) {
+			num1 = Number(numbers[i]);
 		}
-		if (eqArray[i] == "+") {
-			answer += sum(num1, Number(eqArray[i + 1]));
+		if (numbers[i] == "+") {
+			answer += sum(num1, Number(numbers[i + 1]));
 		}
 	}
 
@@ -48,19 +48,19 @@ function addToArray(varOne, varTwo) {
 	//Accepts two variables. If it's subtracted one of the variables will be a negative value (varTwo). Otherwise it should be just two regular old values.
 
 	if (varTwo == NaN) {
-		eqArray.push(varOne);
+		numbers.push(varOne);
 		return;
 	}
 	if (multOrDivide == 1) {
-		eqArray.push(varOne * varTwo);
+		numbers.push(varOne * varTwo);
 		multOrDivide = 0;
 	}
 	if (multOrDivide == 2) {
-		eqArray.push(varOne / varTwo);
+		numbers.push(varOne / varTwo);
 		multOrDivide = 0;
 	} else {
-		eqArray.push(varOne);
-		eqArray.push(varTwo);
+		numbers.push(varOne);
+		numbers.push(varTwo);
 	}
 }
 
@@ -84,13 +84,13 @@ enterBtn.addEventListener("click", () => {
 	prevNum.innerHTML = " " + prevNum.innerHTML + " " + curNum.innerHTML + " = ";
 	let num = Number(curNum.innerHTML);
 	if (multOrDivide == 1) {
-		let num2 = eqArray.pop();
+		let num2 = numbers.pop();
 		num = multiply(num2, Number(curNum.innerHTML));
 	}
 
-	eqArray.push(num);
+	numbers.push(num);
 	curNum.innerHTML = "0";
-	console.log(eqArray);
+	console.log(numbers);
 });
 // operator buttons
 multiplyBtn.addEventListener("click", () => {
@@ -102,7 +102,7 @@ multiplyBtn.addEventListener("click", () => {
 	// let ans = 0;
 	// ans = multiply(num1, num2);
 	// // if (curNum.innerHTML == "0") return;
-	eqArray.push(num2);
+	numbers.push(num2);
 	// eqArray.push("x");
 	prevNum.innerHTML += " " + curNum.innerHTML + " " + "x";
 	curNum.innerHTML = "0";
@@ -112,7 +112,7 @@ divideBtn.addEventListener("click", () => {
 
 	operationState = divideBtn.innerText;
 	prevNum.innerHTML += " " + curNum.innerHTML + " " + "/";
-	eqArray.push(Number(curNum.innerHTML));
+	numbers.push(Number(curNum.innerHTML));
 	// eqArray.push("/");
 
 	curNum.innerHTML = "0";
@@ -121,7 +121,7 @@ plusBtn.addEventListener("click", () => {
 	// let num = Number(curNum.innerHTML);
 	if (curNum.innerHTML == "0") return;
 
-	addToArray(Number(curNum.innerHTML), eqArray.pop());
+	addToArray(Number(curNum.innerHTML), numbers.pop());
 	prevNum.innerHTML += " " + curNum.innerHTML + " " + "+";
 	// eqArray.push(num);
 	// eqArray.push("+");
@@ -131,14 +131,14 @@ plusBtn.addEventListener("click", () => {
 minusBtn.addEventListener("click", () => {
 	let num = Number(curNum.innerHTML);
 	if (multOrDivide == 1) {
-		let num2 = eqArray.pop();
+		let num2 = numbers.pop();
 		num = multiply(num2, Number(curNum.innerHTML));
 		multOrDivide = 0;
 	}
 	if (curNum.innerHTML == "0") return;
 	prevNum.innerHTML += " " + curNum.innerHTML + " " + "-";
 	// num = num * -1;
-	eqArray.push(num);
+	numbers.push(num);
 	// eqArray.push("-");
 
 	curNum.innerHTML = "0";
