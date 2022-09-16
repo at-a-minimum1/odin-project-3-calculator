@@ -245,24 +245,4 @@ document.addEventListener("keydown", (e) => {
 		return;
 	}
 });
-// window.addEventListener("keydown", (e) => {
-// 	console.log(e);
-// 	// if (e.key >= 0 && e.key <= 9) {
-// 	// 	if (prevNum.innerHTML.includes("=")) {
-// 	// 		clear();
-// 	// 	}
-// 	// 	if (curNum.innerHTML == "0") curNum.innerHTML = e;
-// 	// 	else curNum.innerHTML += e;
-// 	// }
-// });
-// function handleKeyPress(e) {
-// 	e.preventDefault();
-// 	console.log(e.key);
-// 	// if (e.key >= 0 && e.key <= 9) {
-// 	// 	if (prevNum.innerHTML.includes("=")) {
-// 	// 		clear();
-// 	// 	}
-// 	// 	if (curNum.innerHTML == "0") curNum.innerHTML = e;
-// 	// 	else curNum.innerHTML += e;
-// 	// }
-// }
+
